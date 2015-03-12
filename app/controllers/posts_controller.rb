@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :find_post, only: [:show, :edit, :update, :destroy]
+  before_action :find_post, only: [:show, :edit, :update, :destroy, :upvote, :downvote]
   def index
     @posts = Post.all.order("created_at DESC")
   end
@@ -31,7 +31,14 @@ class PostsController < ApplicationController
      @post.destroy
      redirect_to root_path
   end
-  
+  def upvote
+   @post.upvote_by current_user
+   redirect_to :back 
+  end
+  def downvote
+      @post.downvote_by current_user
+      redirect_to :back 
+  end
   private
   def find_post
      @post= Post.find(params[:id])
